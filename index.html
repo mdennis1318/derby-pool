@@ -6,7 +6,7 @@
 <title>Family Derby Pool · 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
- 
+
   :root {
     --rose: #8b1538;
     --rose-deep: #5c0d24;
@@ -35,7 +35,7 @@
     --success-text: #2d5a2d;
     --detail-bg: rgba(139, 21, 56, 0.04);
   }
- 
+
   @media (prefers-color-scheme: dark) {
     :root {
       --rose: #d4536f;
@@ -64,7 +64,7 @@
       --detail-bg: rgba(212, 83, 111, 0.06);
     }
   }
- 
+
   html, body {
     background: var(--paper);
     color: var(--ink);
@@ -256,7 +256,7 @@
     transform: scale(0.98);
     box-shadow: 0 2px 8px var(--pot-shadow);
   }
- 
+
   .results {
     margin-top: 28px;
     animation: fadeIn 0.5s ease-out;
@@ -514,12 +514,12 @@
     <div class="subtitle">Run for the Roses, drawn fairly</div>
     <div class="ornament">• • •</div>
   </header>
- 
+
   <div id="viewingBanner" class="viewing-banner hidden">
     <strong>You're viewing a shared draw.</strong><br>
     Tap any horse to learn more about it.
   </div>
- 
+
   <div id="setupSection">
     <div class="pot-card">
       <div class="section-label">The Purse</div>
@@ -531,11 +531,11 @@
       </div>
       <div class="payouts cols-2" id="payouts"></div>
     </div>
- 
+
     <div class="info-box" id="strategyInfo">
       <strong>Loading...</strong>
     </div>
- 
+
     <div>
       <div class="section-label">The Players</div>
       <textarea id="names" placeholder="One name per line">Player 1
@@ -553,15 +553,21 @@ Player 12
 Player 13
 Player 14</textarea>
     </div>
- 
+
     <button class="draw-btn" id="drawBtn">Draw the Horses</button>
+
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);">
+      <div class="section-label">Have a draw code?</div>
+      <textarea id="pasteCode" placeholder="Paste the backup code from another player here..." style="min-height: 70px; font-family: ui-monospace, Menlo, Monaco, monospace; font-size: 12px;"></textarea>
+      <button class="redraw-btn" id="loadCodeBtn" style="margin-top: 8px;">Load shared draw from code</button>
+    </div>
   </div>
- 
+
   <div id="results"></div>
- 
+
   <div class="footer">Post time · 6:57 p.m. ET · Churchill Downs</div>
 </div>
- 
+
 <script>
   // 19-horse field (The Puma scratched morning of 5/2)
   const horses = [
@@ -623,15 +629,15 @@ Player 14</textarea>
       trainer:"(also-eligible)",jockey:"(also-eligible)",
       story:"Drew into the field after a scratch. 50-1 longshot. Stranger things have happened on the first Saturday in May."}
   ];
- 
+
   const TOTAL_HORSES = horses.length;
   const horseByPost = Object.fromEntries(horses.map(h => [h.p, h]));
- 
+
   function getPlayerNames() {
     return document.getElementById('names').value
       .split('\n').map(s => s.trim()).filter(Boolean);
   }
- 
+
   function getPayoutStructure(count) {
     if (count <= 3) {
       return [{ label: 'Winner', pct: 1.0 }];
@@ -641,14 +647,14 @@ Player 14</textarea>
       { label: 'Place · 30%', pct: 0.3 }
     ];
   }
- 
+
   function buildEntries(N) {
     const sortedByOdds = [...horses].sort((a, b) => a.num - b.num);
- 
+
     if (N >= TOTAL_HORSES) {
       return sortedByOdds.map(h => ({ type: 'single', horses: [h] }));
     }
- 
+
     if (N > TOTAL_HORSES / 2) {
       const numBundles = TOTAL_HORSES - N;
       const numSingles = 2 * N - TOTAL_HORSES;
@@ -663,7 +669,7 @@ Player 14</textarea>
         ...bundles.map(b => ({ type: 'bundle', horses: b }))
       ];
     }
- 
+
     const baseSize = Math.floor(TOTAL_HORSES / N);
     const remainder = TOTAL_HORSES % N;
     const bundleSizes = [];
@@ -690,7 +696,7 @@ Player 14</textarea>
       horses: b
     }));
   }
- 
+
   function describeStrategy(N) {
     if (N === 0) return { title: 'Add players above.', body: '' };
     if (N === 1) return { title: 'Just one player?', body: 'You\'ll get all 19 horses.' };
@@ -725,16 +731,16 @@ Player 14</textarea>
       body: sizeDesc + '. Horses are distributed by odds in a snake pattern so every bundle has a mix of favorites and longshots.'
     };
   }
- 
+
   function updateUI() {
     const buy = Math.max(0, parseInt(document.getElementById('buyin').value) || 0);
     const names = getPlayerNames();
     const count = names.length;
     const pot = buy * count;
- 
+
     document.getElementById('playerCount').textContent = count;
     document.getElementById('pot').textContent = '$' + pot.toLocaleString();
- 
+
     const structure = getPayoutStructure(count);
     const payoutsEl = document.getElementById('payouts');
     payoutsEl.className = 'payouts cols-' + structure.length;
@@ -742,15 +748,15 @@ Player 14</textarea>
       '<div class="payout"><div class="place">' + s.label + '</div>' +
       '<div class="amount">$' + Math.round(pot * s.pct).toLocaleString() + '</div></div>'
     ).join('');
- 
+
     const strat = describeStrategy(count);
     document.getElementById('strategyInfo').innerHTML =
       '<strong>' + strat.title + '</strong> ' + strat.body;
   }
- 
+
   document.getElementById('buyin').addEventListener('input', updateUI);
   document.getElementById('names').addEventListener('input', updateUI);
- 
+
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -761,7 +767,7 @@ Player 14</textarea>
     }
     return a;
   }
- 
+
   function encodeDrawToUrl(buyin, assignments) {
     const compact = {
       b: buyin,
@@ -780,7 +786,7 @@ Player 14</textarea>
     return btoa(binary)
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
- 
+
   function decodeDrawFromUrl(hash) {
     try {
       const b64 = hash.replace(/-/g, '+').replace(/_/g, '/');
@@ -806,13 +812,13 @@ Player 14</textarea>
       return null;
     }
   }
- 
+
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[c]));
   }
- 
+
   function buildHorseBlock(h, isBundle, isFirstInBundle) {
     const badgeClass = isBundle ? 'bundle' : 'single';
     const tag = (isBundle && isFirstInBundle) ? '<span class="bundle-tag">bundle</span>' : '';
@@ -838,11 +844,11 @@ Player 14</textarea>
       '</div>' +
     '</div>';
   }
- 
+
   function renderResults(buyin, assignments, isShared) {
     const pot = buyin * assignments.length;
     const structure = getPayoutStructure(assignments.length);
- 
+
     let html = '<div class="pot-card">' +
       '<div class="section-label">The Purse</div>' +
       '<div class="pot-row">' +
@@ -857,15 +863,15 @@ Player 14</textarea>
         '<div class="amount">$' + Math.round(pot * s.pct).toLocaleString() + '</div></div>'
       ).join('') +
       '</div></div>';
- 
+
     html += '<div class="info-box" style="margin-bottom: 18px;"><strong>Tap any horse</strong> to see its trainer, jockey, and what makes it worth rooting for.</div>';
- 
+
     html += '<div class="results-header"><h2>The Matchups</h2></div>';
- 
+
     assignments.forEach((a, i) => {
       html += '<div class="matchup" style="animation-delay: ' + (i * 40) + 'ms">' +
         '<div class="player"><span class="player-num">' + (i + 1) + '.</span>' + escapeHtml(a.name) + '</div>';
- 
+
       if (!a.entry) {
         html += '<div style="color: var(--ink-faint); font-style: italic; font-size: 13px;">No horse available.</div>';
       } else {
@@ -876,39 +882,45 @@ Player 14</textarea>
       }
       html += '</div>';
     });
- 
+
     if (!isShared) {
       html += '<div class="share-card">' +
         '<div class="label">Share with the family</div>' +
-        '<p>This link encodes the exact matchups above. Anyone who opens it sees the same draw.</p>' +
+        '<p>Tap to copy the link, or share the code below if the link gets mangled.</p>' +
         '<button class="share-btn" id="shareBtn">Copy share link</button>' +
+        '<div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);">' +
+        '<div style="font-size: 10px; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px;">Backup code</div>' +
+        '<div id="shareCode" style="font-family: ui-monospace, Menlo, Monaco, monospace; font-size: 11px; word-break: break-all; padding: 10px; background: var(--detail-bg); border-radius: 6px; color: var(--ink-soft); user-select: all; -webkit-user-select: all; line-height: 1.5;"></div>' +
+        '<button class="redraw-btn" id="copyCodeBtn" style="margin-top: 8px;">Copy code only</button>' +
+        '</div>' +
         '</div>' +
         '<button class="redraw-btn" id="restartBtn">Start over</button>';
     } else {
       html += '<button class="redraw-btn" id="restartBtn">Run a new draw</button>';
     }
- 
+
     document.getElementById('results').innerHTML = html;
- 
+
     document.getElementById('restartBtn').addEventListener('click', () => {
       window.location.hash = '';
       window.location.reload();
     });
- 
+
     if (!isShared) {
       const shareBtn = document.getElementById('shareBtn');
+      const copyCodeBtn = document.getElementById('copyCodeBtn');
+      const shareCodeEl = document.getElementById('shareCode');
       const code = encodeDrawToUrl(buyin, assignments);
       const url = window.location.origin + window.location.pathname + '#' + code;
- 
+
+      // Display the code visibly
+      shareCodeEl.textContent = code;
+
+      // Copy LINK button - always copies to clipboard, no navigator.share
+      // (navigator.share was causing issues with some apps stripping the URL)
       shareBtn.addEventListener('click', async () => {
         try {
-          if (navigator.share) {
-            await navigator.share({
-              title: 'Family Derby Pool',
-              text: 'Our 2026 Kentucky Derby pool draw',
-              url: url
-            });
-          } else if (navigator.clipboard) {
+          if (navigator.clipboard) {
             await navigator.clipboard.writeText(url);
             shareBtn.textContent = 'Link copied!';
             shareBtn.classList.add('copied');
@@ -923,40 +935,77 @@ Player 14</textarea>
           window.prompt('Copy this link:', url);
         }
       });
- 
-      window.history.replaceState(null, '', '#' + code);
+
+      // Copy CODE only button
+      copyCodeBtn.addEventListener('click', async () => {
+        try {
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(code);
+            copyCodeBtn.textContent = 'Code copied!';
+            setTimeout(() => {
+              copyCodeBtn.textContent = 'Copy code only';
+            }, 2500);
+          } else {
+            window.prompt('Copy this code:', code);
+          }
+        } catch (e) {
+          window.prompt('Copy this code:', code);
+        }
+      });
+
+      // Try to update URL so refresh preserves the draw
+      // (may fail in sandboxed iframes — that's OK, it's not critical)
+      try {
+        window.history.replaceState(null, '', '#' + code);
+      } catch (e) {
+        // Sandboxed environment — silently ignore
+      }
     }
   }
- 
+
   function draw() {
     const names = getPlayerNames();
     const buyin = Math.max(0, parseInt(document.getElementById('buyin').value) || 0);
- 
+
     if (names.length === 0) {
       document.getElementById('results').innerHTML = '<div class="error">Please add at least one player name.</div>';
       return;
     }
- 
+
     const entries = buildEntries(names.length);
     const shuffledEntries = shuffle(entries);
- 
+
     const assignments = names.map((name, i) => ({
       name,
       entry: i < shuffledEntries.length ? shuffledEntries[i] : null
     }));
- 
+
     document.getElementById('setupSection').classList.add('hidden');
     renderResults(buyin, assignments, false);
     document.getElementById('results').scrollIntoView({behavior: 'smooth', block: 'start'});
   }
- 
+
   document.getElementById('drawBtn').addEventListener('click', draw);
- 
+
+  document.getElementById('loadCodeBtn').addEventListener('click', () => {
+    const code = document.getElementById('pasteCode').value.trim();
+    if (!code) {
+      alert('Paste a draw code first.');
+      return;
+    }
+    window.location.hash = code;
+    // Force re-check
+    if (!tryLoadSharedDraw()) {
+      alert('That code didn\'t work. Make sure you copied the entire backup code.');
+      window.location.hash = '';
+    }
+  });
+
   function tryLoadSharedDraw() {
     // Hash may include encoded chars from messaging apps; try cleaning it
     let hash = window.location.hash.slice(1);
     if (!hash) return false;
- 
+
     // Some apps URL-encode the hash content
     try {
       // Try as-is first
@@ -976,7 +1025,7 @@ Player 14</textarea>
     }
     return false;
   }
- 
+
   // Try immediately (in case DOM is already ready)
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -985,7 +1034,7 @@ Player 14</textarea>
   } else {
     if (!tryLoadSharedDraw()) updateUI();
   }
- 
+
   // Also handle hash changes (if user navigates between drafts)
   window.addEventListener('hashchange', () => {
     if (window.location.hash) {
