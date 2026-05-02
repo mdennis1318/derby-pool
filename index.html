@@ -5,9 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Family Derby Pool · 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -22,20 +19,18 @@
 –ink-soft: rgba(26, 14, 10, 0.7);
 –ink-faint: rgba(26, 14, 10, 0.55);
 –surface: #ffffff;
-–surface-alt: var(–cream);
+–surface-alt: #f0e4cc;
 –border: rgba(139, 21, 56, 0.15);
 –border-soft: rgba(139, 21, 56, 0.12);
 –warning-bg: #fae8c8;
 –warning-text: #7a5210;
 –warning-border: rgba(184, 146, 58, 0.4);
-–pot-grad-start: var(–rose-deep);
-–pot-grad-end: var(–rose);
-–pot-text: var(–cream);
+–pot-grad-start: #5c0d24;
+–pot-grad-end: #8b1538;
+–pot-text: #f5ecdb;
 –pot-shadow: rgba(139, 21, 56, 0.15);
-–input-bg: rgba(245, 236, 219, 0.95);
-–input-text: var(–rose-deep);
-–bg-radial-1: rgba(139, 21, 56, 0.06);
-–bg-radial-2: rgba(184, 146, 58, 0.08);
+–input-bg: #f5ecdb;
+–input-text: #5c0d24;
 –redraw-hover: rgba(139, 21, 56, 0.05);
 –success-bg: #d4e8d4;
 –success-text: #2d5a2d;
@@ -61,10 +56,8 @@
 –pot-grad-start: #3a0a18;
 –pot-grad-end: #6b1029;
 –pot-shadow: rgba(0, 0, 0, 0.5);
-–input-bg: rgba(240, 228, 208, 0.95);
+–input-bg: #f0e4d0;
 –input-text: #5c0d24;
-–bg-radial-1: rgba(212, 83, 111, 0.08);
-–bg-radial-2: rgba(212, 175, 94, 0.06);
 –redraw-hover: rgba(212, 83, 111, 0.1);
 –success-bg: rgba(120, 180, 120, 0.15);
 –success-text: #9ed09e;
@@ -74,16 +67,15 @@
 html, body {
 background: var(–paper);
 color: var(–ink);
-font-family: ‘Inter’, -apple-system, sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif;
 line-height: 1.5;
 min-height: 100vh;
 overflow-x: hidden;
+-webkit-font-smoothing: antialiased;
 }
-body {
-background-image:
-radial-gradient(circle at 10% 0%, var(–bg-radial-1) 0%, transparent 40%),
-radial-gradient(circle at 90% 100%, var(–bg-radial-2) 0%, transparent 40%);
-background-attachment: fixed;
+.serif {
+font-family: Georgia, “Times New Roman”, Times, serif;
+font-style: italic;
 }
 .container {
 max-width: 480px;
@@ -95,17 +87,7 @@ text-align: center;
 padding: 12px 0 24px;
 border-bottom: 1px solid var(–border);
 margin-bottom: 28px;
-position: relative;
 }
-.header::before, .header::after {
-content: “❦”;
-color: var(–gold);
-font-size: 14px;
-position: absolute;
-top: 32px;
-}
-.header::before { left: 20%; }
-.header::after { right: 20%; }
 .eyebrow {
 font-size: 10px;
 font-weight: 600;
@@ -115,20 +97,26 @@ text-transform: uppercase;
 margin-bottom: 8px;
 }
 h1 {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, “Times New Roman”, serif;
 font-style: italic;
 font-weight: 500;
-font-size: 36px;
+font-size: 34px;
 color: var(–rose);
 line-height: 1.1;
 letter-spacing: -0.01em;
 }
 .subtitle {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-size: 15px;
 color: var(–ink-soft);
 margin-top: 6px;
 font-style: italic;
+}
+.ornament {
+color: var(–gold);
+margin-top: 8px;
+font-size: 14px;
+letter-spacing: 0.4em;
 }
 .section-label {
 font-size: 10px;
@@ -169,7 +157,7 @@ margin-bottom: 14px;
 width: 80px;
 padding: 8px 10px;
 font-size: 16px;
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-weight: 600;
 background: var(–input-bg);
 color: var(–input-text);
@@ -181,7 +169,7 @@ text-align: center;
 .pot-row input:focus { outline: 2px solid var(–gold-light); }
 .pot-row .label { font-size: 13px; opacity: 0.85; }
 .pot-row .total {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-size: 24px;
 font-weight: 600;
@@ -209,7 +197,7 @@ opacity: 0.75;
 margin-bottom: 4px;
 }
 .payout .amount {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-weight: 600;
 font-size: 20px;
 color: var(–gold-light);
@@ -225,7 +213,7 @@ line-height: 1.55;
 color: var(–ink);
 }
 .info-box strong {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-size: 15px;
 color: var(–rose);
@@ -234,7 +222,7 @@ font-weight: 600;
 textarea {
 width: 100%;
 padding: 14px;
-font-family: ‘Inter’, sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 font-size: 14px;
 line-height: 1.6;
 background: var(–surface);
@@ -254,7 +242,7 @@ box-shadow: 0 0 0 3px var(–redraw-hover);
 width: 100%;
 margin-top: 16px;
 padding: 16px;
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-weight: 600;
 font-size: 20px;
@@ -271,8 +259,6 @@ transition: transform 0.15s, box-shadow 0.15s;
 transform: scale(0.98);
 box-shadow: 0 2px 8px var(–pot-shadow);
 }
-.draw-btn::before { content: “❦ “; color: var(–gold-light); }
-.draw-btn::after { content: “ ❦”; color: var(–gold-light); }
 
 .results {
 margin-top: 28px;
@@ -289,7 +275,7 @@ padding-bottom: 14px;
 border-bottom: 1px solid var(–border);
 }
 .results-header h2 {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-size: 26px;
 color: var(–rose);
@@ -308,7 +294,7 @@ from { opacity: 0; transform: translateX(-8px); }
 to { opacity: 1; transform: translateX(0); }
 }
 .matchup .player {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-size: 19px;
 font-weight: 600;
 color: var(–rose);
@@ -392,7 +378,7 @@ line-height: 1.55;
 .share-btn {
 width: 100%;
 padding: 14px;
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-weight: 600;
 font-size: 17px;
@@ -429,14 +415,14 @@ text-align: center;
 line-height: 1.5;
 }
 .viewing-banner strong {
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-size: 15px;
 }
 .footer {
 margin-top: 40px;
 text-align: center;
-font-family: ‘Cormorant Garamond’, serif;
+font-family: Georgia, serif;
 font-style: italic;
 font-size: 13px;
 color: var(–ink-faint);
@@ -459,6 +445,7 @@ text-align: center;
     <div class="eyebrow">152nd Running · May 2, 2026</div>
     <h1>The Family Pool</h1>
     <div class="subtitle">Run for the Roses, drawn fairly</div>
+    <div class="ornament">• • •</div>
   </header>
 
   <div id="viewingBanner" class="viewing-banner hidden">
@@ -549,12 +536,11 @@ Player 14</textarea>
   function getPayoutStructure(count) {
     if (count <= 3) {
       return [{ label: 'Winner', pct: 1.0 }];
-    } else {
-      return [
-        { label: 'Win · 70%', pct: 0.7 },
-        { label: 'Place · 30%', pct: 0.3 }
-      ];
     }
+    return [
+      { label: 'Win · 70%', pct: 0.7 },
+      { label: 'Place · 30%', pct: 0.3 }
+    ];
   }
 
   function buildEntries(N) {
@@ -615,29 +601,29 @@ Player 14</textarea>
         return { title: '20 players, 20 horses.', body: 'Every player gets exactly one horse.' };
       }
       return {
-        title: `Too many players (${N} > 20 horses).`,
-        body: `Only 20 players can be assigned a horse. The last ${extra} on the list won't have one.`
+        title: 'Too many players (' + N + ' > 20 horses).',
+        body: 'Only 20 players can be assigned a horse. The last ' + extra + ' on the list won\'t have one.'
       };
     }
     if (N > TOTAL_HORSES / 2) {
       const numBundles = TOTAL_HORSES - N;
       const numSingles = 2 * N - TOTAL_HORSES;
       return {
-        title: `20 horses → ${N} entries.`,
-        body: `${numSingles} of the strongest horses run solo. The remaining ${2 * numBundles} get paired into ${numBundles} balanced bundles. Every horse has an owner.`
+        title: '20 horses → ' + N + ' entries.',
+        body: numSingles + ' of the strongest horses run solo. The remaining ' + (2 * numBundles) + ' get paired into ' + numBundles + ' balanced bundles. Every horse has an owner.'
       };
     }
     const baseSize = Math.floor(TOTAL_HORSES / N);
     const remainder = TOTAL_HORSES % N;
     let sizeDesc;
     if (remainder === 0) {
-      sizeDesc = `${N} bundles of ${baseSize} horses each`;
+      sizeDesc = N + ' bundles of ' + baseSize + ' horses each';
     } else {
-      sizeDesc = `${remainder} bundles of ${baseSize + 1} and ${N - remainder} bundles of ${baseSize}`;
+      sizeDesc = remainder + ' bundles of ' + (baseSize + 1) + ' and ' + (N - remainder) + ' bundles of ' + baseSize;
     }
     return {
-      title: `20 horses → ${N} bundles.`,
-      body: `${sizeDesc}. Horses are distributed by odds in a snake pattern so every bundle has a mix of favorites and longshots.`
+      title: '20 horses → ' + N + ' bundles.',
+      body: sizeDesc + '. Horses are distributed by odds in a snake pattern so every bundle has a mix of favorites and longshots.'
     };
   }
 
@@ -653,23 +639,21 @@ Player 14</textarea>
     const structure = getPayoutStructure(count);
     const payoutsEl = document.getElementById('payouts');
     payoutsEl.className = 'payouts cols-' + structure.length;
-    payoutsEl.innerHTML = structure.map(s => `
-      <div class="payout">
-        <div class="place">${s.label}</div>
-        <div class="amount">$${Math.round(pot * s.pct).toLocaleString()}</div>
-      </div>
-    `).join('');
+    payoutsEl.innerHTML = structure.map(s =>
+      '<div class="payout"><div class="place">' + s.label + '</div>' +
+      '<div class="amount">$' + Math.round(pot * s.pct).toLocaleString() + '</div></div>'
+    ).join('');
 
     const strat = describeStrategy(count);
     document.getElementById('strategyInfo').innerHTML =
-      `<strong>${strat.title}</strong> ${strat.body}`;
+      '<strong>' + strat.title + '</strong> ' + strat.body;
   }
 
   document.getElementById('buyin').addEventListener('input', updateUI);
   document.getElementById('names').addEventListener('input', updateUI);
 
   function shuffle(arr) {
-    const a = [...arr];
+    const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
       const buf = new Uint32Array(1);
       crypto.getRandomValues(buf);
@@ -679,8 +663,6 @@ Player 14</textarea>
     return a;
   }
 
-  // Encode draw to URL: list of {name, postsArray}
-  // Format: base64(JSON.stringify({ b: buyin, p: [[name, [posts...]], ...] }))
   function encodeDrawToUrl(buyin, assignments) {
     const compact = {
       b: buyin,
@@ -690,9 +672,8 @@ Player 14</textarea>
       ])
     };
     const json = JSON.stringify(compact);
-    const b64 = btoa(unescape(encodeURIComponent(json)))
+    return btoa(unescape(encodeURIComponent(json)))
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    return b64;
   }
 
   function decodeDrawFromUrl(hash) {
@@ -703,11 +684,11 @@ Player 14</textarea>
       const data = JSON.parse(json);
       return {
         buyin: data.b,
-        assignments: data.p.map(([name, posts]) => ({
-          name,
-          entry: posts.length === 0 ? null : {
-            type: posts.length > 1 ? 'bundle' : 'single',
-            horses: posts.map(p => horseByPost[p]).filter(Boolean)
+        assignments: data.p.map(entry => ({
+          name: entry[0],
+          entry: entry[1].length === 0 ? null : {
+            type: entry[1].length > 1 ? 'bundle' : 'single',
+            horses: entry[1].map(p => horseByPost[p]).filter(Boolean)
           }
         }))
       };
@@ -720,59 +701,61 @@ Player 14</textarea>
     const pot = buyin * assignments.length;
     const structure = getPayoutStructure(assignments.length);
 
-    let html = `<div class="pot-card">
-      <div class="section-label">The Purse</div>
-      <div class="pot-row">
-        <span class="label">$</span>
-        <span style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 20px;">${buyin}</span>
-        <span class="label">× ${assignments.length}</span>
-        <span class="total">$${pot.toLocaleString()}</span>
-      </div>
-      <div class="payouts cols-${structure.length}">
-        ${structure.map(s => `
-          <div class="payout">
-            <div class="place">${s.label}</div>
-            <div class="amount">$${Math.round(pot * s.pct).toLocaleString()}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>`;
+    let html = '<div class="pot-card">' +
+      '<div class="section-label">The Purse</div>' +
+      '<div class="pot-row">' +
+      '<span class="label">$</span>' +
+      '<span style="font-family: Georgia, serif; font-weight: 600; font-size: 20px;">' + buyin + '</span>' +
+      '<span class="label">× ' + assignments.length + '</span>' +
+      '<span class="total">$' + pot.toLocaleString() + '</span>' +
+      '</div>' +
+      '<div class="payouts cols-' + structure.length + '">' +
+      structure.map(s =>
+        '<div class="payout"><div class="place">' + s.label + '</div>' +
+        '<div class="amount">$' + Math.round(pot * s.pct).toLocaleString() + '</div></div>'
+      ).join('') +
+      '</div></div>';
 
     html += '<div class="results-header"><h2>The Matchups</h2></div>';
 
     assignments.forEach((a, i) => {
-      html += `<div class="matchup" style="animation-delay: ${i * 40}ms">
-        <div class="player"><span class="player-num">${i + 1}.</span>${a.name}</div>`;
+      html += '<div class="matchup" style="animation-delay: ' + (i * 40) + 'ms">' +
+        '<div class="player"><span class="player-num">' + (i + 1) + '.</span>' + escapeHtml(a.name) + '</div>';
 
       if (!a.entry) {
-        html += `<div class="horse-row" style="color: var(--ink-faint); font-style: italic;">No horse available.</div>`;
+        html += '<div class="horse-row" style="color: var(--ink-faint); font-style: italic;">No horse available.</div>';
       } else {
         const isBundle = a.entry.type === 'bundle';
         a.entry.horses.forEach((h, idx) => {
           const badgeClass = isBundle ? 'bundle' : 'single';
           const tag = (isBundle && idx === 0) ? '<span class="bundle-tag">bundle</span>' : '';
-          html += `<div class="horse-row">
-            <span class="post-badge ${badgeClass}">${h.p}</span>
-            <span class="horse-name">${h.name}${idx === 0 ? tag : ''}</span>
-            <span class="horse-odds">${h.odds}</span>
-          </div>`;
+          html += '<div class="horse-row">' +
+            '<span class="post-badge ' + badgeClass + '">' + h.p + '</span>' +
+            '<span class="horse-name">' + h.name + (idx === 0 ? tag : '') + '</span>' +
+            '<span class="horse-odds">' + h.odds + '</span>' +
+            '</div>';
         });
       }
       html += '</div>';
     });
 
     if (!isShared) {
-      html += `<div class="share-card">
-        <div class="label">Share with the family</div>
-        <p>This link encodes the exact matchups above. Anyone who opens it will see the same draw.</p>
-        <button class="share-btn" id="shareBtn">Copy share link</button>
-      </div>
-      <button class="redraw-btn" onclick="window.location.hash=''; window.location.reload();">Start over</button>`;
+      html += '<div class="share-card">' +
+        '<div class="label">Share with the family</div>' +
+        '<p>This link encodes the exact matchups above. Anyone who opens it sees the same draw.</p>' +
+        '<button class="share-btn" id="shareBtn">Copy share link</button>' +
+        '</div>' +
+        '<button class="redraw-btn" id="restartBtn">Start over</button>';
     } else {
-      html += `<button class="redraw-btn" onclick="window.location.hash=''; window.location.reload();">Run a new draw</button>`;
+      html += '<button class="redraw-btn" id="restartBtn">Run a new draw</button>';
     }
 
     document.getElementById('results').innerHTML = html;
+
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      window.location.hash = '';
+      window.location.reload();
+    });
 
     if (!isShared) {
       const shareBtn = document.getElementById('shareBtn');
@@ -787,7 +770,7 @@ Player 14</textarea>
               text: 'Our 2026 Kentucky Derby pool draw',
               url: url
             });
-          } else {
+          } else if (navigator.clipboard) {
             await navigator.clipboard.writeText(url);
             shareBtn.textContent = 'Link copied!';
             shareBtn.classList.add('copied');
@@ -795,16 +778,22 @@ Player 14</textarea>
               shareBtn.textContent = 'Copy share link';
               shareBtn.classList.remove('copied');
             }, 2500);
+          } else {
+            window.prompt('Copy this link:', url);
           }
         } catch (e) {
-          // Fallback: show URL in a prompt
           window.prompt('Copy this link:', url);
         }
       });
 
-      // Update URL so the host's view also persists on refresh
       window.history.replaceState(null, '', '#' + code);
     }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
   }
 
   function draw() {
@@ -831,7 +820,6 @@ Player 14</textarea>
 
   document.getElementById('drawBtn').addEventListener('click', draw);
 
-  // On load: if URL has a hash, render the shared draw
   window.addEventListener('load', () => {
     const hash = window.location.hash.slice(1);
     if (hash) {
